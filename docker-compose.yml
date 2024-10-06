@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  chatbot:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ${HOME}/.kube/config:/app/kubeconfig:ro
