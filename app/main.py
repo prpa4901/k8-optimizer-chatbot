@@ -1,9 +1,9 @@
 from fastapi import FastAPI
-# from app.routers import kubernetes
+from app.routers import kubernetes
 
 app = FastAPI(title="K8 resource optimizer chat")
 
-#app.include_router(kubernetes.router, prefix="/api/v1")
+app.include_router(kubernetes.router, prefix="/api/v1")
 
 @app.get("/")
 async def root():
