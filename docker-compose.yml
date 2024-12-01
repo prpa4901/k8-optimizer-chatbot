@@ -7,3 +7,5 @@ services:
     # Mount Kubernetes configuration
     - ${HOME}/.kube/docker-config:/root/.kube/config:ro
     - ${HOME}/.minikube:/root/.minikube:ro
+    environment:
+      - HOST_HOME=${HOME}

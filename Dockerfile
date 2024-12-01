@@ -12,6 +12,16 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# RUN rm -rf /root/.kube
+
 COPY . .
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8201"]
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+ENV HOST_HOME=${HOME}
+
+# RUN mkdir -p /root/.kube
+
+ENTRYPOINT [ "docker-entrypoint.sh" ]
