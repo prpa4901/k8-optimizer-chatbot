@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from app.services.k8s_service import K8sService
 from app.models.k8s_models import ResourceUsage, ResourceAnalysis, ChatMessage
 

@@ -2,6 +2,8 @@ services:
   chatbot:
     build: .
     ports:
-      - "8000:8000"
+      - "8201:8201"
     volumes:
-      - ${HOME}/.kube/config:/app/kubeconfig:ro
+    # Mount Kubernetes configuration
+    - ${HOME}/.kube/docker-config:/root/.kube/config:ro
+    - ${HOME}/.minikube:/root/.minikube:ro

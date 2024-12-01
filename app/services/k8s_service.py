@@ -3,7 +3,7 @@ from app.models.k8s_models import ResourceUsage, ResourceAnalysis, NodeUsage
 
 class K8sService:
     def __init__(self):
-        config.load_kube_config()
+        config.load_kube_config(config_file="/root/.kube/config")
         self.v1 = client.CoreV1Api()
         self.apps_v1 = client.AppsV1Api()
 
