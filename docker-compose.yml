@@ -9,3 +9,4 @@ services:
     - ${HOME}/.minikube:/root/.minikube:ro
     environment:
       - HOST_HOME=${HOME}
+      - KUBERNETES_HOST=${MINIKUBE_IP}

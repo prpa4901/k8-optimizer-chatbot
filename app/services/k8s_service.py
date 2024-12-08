@@ -1,14 +1,36 @@
 from kubernetes import client, config
+from kubernetes.client import Configuration
 from app.models.k8s_models import ResourceUsage, ResourceAnalysis, NodeUsage
+import os
 
 class K8sService:
     def __init__(self):
         config.load_kube_config(config_file="/root/.kube/config")
+        # Get Minikube IP from environment variable that we set in docker-compose
+        minikube_ip = os.getenv('KUBERNETES_HOST')
+        
+        if minikube_ip:
+            # If we have the Minikube IP, create a custom configuration
+            configuration = Configuration.get_default_copy()
+            # Update the host to use the Minikube IP with the standard port
+            configuration.host = f"https://{minikube_ip}:51767"
+            # Set this as our default configuration
+            Configuration.set_default(configuration)
+            print(f"Configured Kubernetes client to connect to {configuration.host}")
+        else:
+            print("Warning: KUBERNETES_HOST not set, using configuration from kubeconfig file")
         self.v1 = client.CoreV1Api()
         self.apps_v1 = client.AppsV1Api()
 
     def get_resource_usage(self) -> ResourceUsage:
-        nodes = self.v1.list_node().items
+        try:
+            print("Attempting to list nodes...")
+            nodes = self.v1.list_node(timeout_seconds=10)
+            print("Successfully connected to cluster")
+            return True
+        except Exception as e:
+            print(f"Connection failed: {str(e)}")
+            return False
         usage = ResourceUsage(nodes=[])
         
         for node in nodes:
