@@ -45,5 +45,9 @@ fi
 # Step 6: Export the Minikube IP as an environment variable
 export MINIKUBE_IP
 
+export K8S_TOKEN=$K8S_TOKEN
+
+# echo $K8S_TOKEN
+
 # Step 7: Start Docker Compose
-MINIKUBE_IP=$MINIKUBE_IP docker-compose up --build
+MINIKUBE_IP=$MINIKUBE_IP K8S_TOKEN=$K8S_TOKEN docker-compose up --build

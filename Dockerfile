@@ -7,6 +7,10 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     gcc \
     g++ \
+    curl \
+    iproute2 \
+    iputils-ping \
+    net-tools \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
@@ -21,6 +25,8 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 ENV HOST_HOME=${HOME}
+
+ENV K8S_TOKEN=${K8S_TOKEN}
 
 # RUN mkdir -p /root/.kube
 

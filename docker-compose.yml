@@ -3,6 +3,8 @@ services:
     build: .
     ports:
       - "8201:8201"
+    networks:
+      - minikube_network
     volumes:
     # Mount Kubernetes configuration
     - ${HOME}/.kube/docker-config:/root/.kube/config:ro
@@ -10,3 +12,10 @@ services:
     environment:
       - HOST_HOME=${HOME}
       - KUBERNETES_HOST=${MINIKUBE_IP}
+      - K8S_TOKEN=${K8S_TOKEN}
+
+networks:
+  minikube_network:
+    external: true
+    name: minikube
+

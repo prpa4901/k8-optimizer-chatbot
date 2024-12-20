@@ -1,0 +1,12 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: chatbot-access
+subjects:
+  - kind: ServiceAccount
+    name: k8chat-account
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: read-only-k8chat
+  apiGroup: rbac.authorization.k8s.io

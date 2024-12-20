@@ -6,14 +6,19 @@ import os
 class K8sService:
     def __init__(self):
         config.load_kube_config(config_file="/root/.kube/config")
+        token = os.getenv("K8S_TOKEN")
+        if not token:
+            raise ValueError("K8S_TOKEN environment variable is not set")
         # Get Minikube IP from environment variable that we set in docker-compose
         minikube_ip = os.getenv('KUBERNETES_HOST')
-        
+
         if minikube_ip:
             # If we have the Minikube IP, create a custom configuration
             configuration = Configuration.get_default_copy()
             # Update the host to use the Minikube IP with the standard port
-            configuration.host = f"https://{minikube_ip}:51767"
+            configuration.host = f"https://{minikube_ip}:8443"
+            configuration.verify_ssl = False
+            configuration.api_key = {"authorization": f"Bearer {token}"}
             # Set this as our default configuration
             Configuration.set_default(configuration)
             print(f"Configured Kubernetes client to connect to {configuration.host}")
@@ -22,12 +27,12 @@ class K8sService:
         self.v1 = client.CoreV1Api()
         self.apps_v1 = client.AppsV1Api()
 
+
     def get_resource_usage(self) -> ResourceUsage:
         try:
             print("Attempting to list nodes...")
-            nodes = self.v1.list_node(timeout_seconds=10)
+            nodes = self.v1.list_node(timeout_seconds=10).items
             print("Successfully connected to cluster")
-            return True
         except Exception as e:
             print(f"Connection failed: {str(e)}")
             return False
