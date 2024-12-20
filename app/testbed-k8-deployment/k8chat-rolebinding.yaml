@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-only-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: k8chat
+    namespace: default
+roleRef:
+  kind: Role
+  name: read-only-k8chat
+  apiGroup: rbac.authorization.k8s.io
