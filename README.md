@@ -207,6 +207,7 @@ MINIKUBE_IP=$MINIKUBE_IP docker-compose up --build
 - Integrate Prometheus and Grafana for monitoring.
 - Use Kubernetes Secrets to manage sensitive tokens securely.
 - Use scapy NLP to assess questions
+- Put UI using streamlit for chat application
 - Use AI models to perform analysis
 
 
